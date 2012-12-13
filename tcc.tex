@@ -1,0 +1,98 @@
+\documentclass[12pt, a4paper, tocpage=plain]{abnt} % Fonte tamanho 12, papel A4, páginas do sumário sem o p.<número da página>
+
+\usepackage[utf8]{inputenc} % Dá suporte para caracteres especiais como acentos e cedilha
+\usepackage[brazil]{babel} % Gera datas e nomes em português com estilo brasileiro
+\usepackage{graphicx} % Permite a utilização de imagens no documento
+\usepackage[usenames,dvipsnames,svgnames]{xcolor}
+\usepackage{verbatim,framed}
+\usepackage{hyperref} % Permite a criação de hyperlink no documento, como os links usados na referência
+\usepackage[alf,bibjustif]{abntcite} % Define o estilo de referência bibliográfica
+\usepackage{epigraph} % Permite a criação de epígrafes
+\usepackage[small]{caption} % Define as legendas das figuras com fontes menores do que o texto
+\usepackage{subfigure}
+\usepackage{setspace} % Permite a definição de espaçamento entre linhas
+\usepackage[top=3cm, left=3cm, right=2cm, bottom=2cm]{geometry} % Define as margens da folha
+\usepackage{caption}
+\usepackage{setspace}
+\usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage[bottom]{footmisc}
+\usepackage{minted}
+
+\setcounter{secnumdepth}{3} % Até três subsubsections numeradas
+\setcounter{tocdepth}{3} % Até três subsubsections numeradas
+\setlength{\parindent}{1.25cm} % Define o recuo da primeira linha dos parágrafos para 1.25 cm
+
+\newcommand{\goodgap}{%
+\hspace{\subfigtopskip}%
+\hspace{\subfigbottomskip}}
+
+\renewcommand{\ABNTchapterfont}{\bfseries} % Define a fonte do \chapter
+\renewcommand{\ABNTchaptersize}{\large} % Define o tamanho da fonte do \chapter
+\renewcommand{\ABNTsectionfontsize}{\large} % Define o tamanho da fonte da \section
+\renewcommand{\ABNTsubsectionfontsize}{\large} % Define o tamanho da fonte do \subsection
+\renewcommand{\ABNTsubsubsectionfontsize}{\large} % Define o tamanho da fonte do \subsubsection
+\renewcommand{\ABNTbibliographyname}{REFERÊNCIAS BIBLIOGRÁFICAS} % Modifica o título gerado pelo \bibliographys
+
+% ======================== Configuração dos blocos de código fonte contidos no trabalho =========================
+\renewcommand\listingscaption{Código}
+\DeclareCaptionStyle{code_style}{justification=centering, skip=30pt}
+\DeclareCaptionFont{all_label}{\footnotesize}
+\DeclareCaptionFont{all_text}{\footnotesize\upshape}
+\captionsetup[listing]{style=code_style,labelfont=all_label,textfont=all_text}
+\makeatletter
+\newenvironment{code}[3]
+	{\VerbatimEnvironment
+	 \minted@resetoptions
+	 \setkeys{minted@opt}{linenos,fontfamily=courier, fontsize=\scriptsize, xleftmargin=21pt, frame=lines, framesep=5pt, framerule=1pt, numbersep=4pt}
+	 \renewcommand{\minted@proglang}[1]{#1}
+     \captionof{listing}{#2\label{#3}} % http://migre.me/85CIT
+     \begin{VerbatimOut}{\jobname.pyg}}
+    {\end{VerbatimOut}
+  	 \minted@pygmentize{\minted@proglang{}}
+  	 \DeleteFile{\jobname.pyg}}
+\makeatother
+
+\makeatletter
+\newenvironment{terminal}[2]{%
+  \VerbatimEnvironment
+  \minted@resetoptions
+  \setkeys{minted@opt}{fontfamily=courier, fontsize=\scriptsize, frame=single, numbersep=4pt, framerule=1pt, framesep=5pt}
+         \captionof{listing}{#1\label{#2}}
+      \begin{VerbatimOut}{\jobname.pyg}}
+{
+      \end{VerbatimOut}
+      \minted@pygmentize{bash}
+      \DeleteFile{\jobname.pyg}
+}
+% ===============================================================================================================
+\hyphenation{seg-men-ta-ção}
+
+\begin{document}
+	\include{capa}
+	\include{rosto}
+	\include{aprovacao}
+	\include{dedicatoria}
+	\include{agradecimentos}
+	\include{epigrafe}
+	\include{resumo}
+	\include{abstract}
+	\renewcommand{\listfigurename}{LISTA DE FIGURAS} % Modifica o nome da lista de figuras
+	\listoffigures % Gera o índice de figuras
+	\renewcommand{\listtablename}{LISTA DE TABELAS} % Modifica o nome da lista de tabelas
+	\renewcommand\listoflistingscaption{LISTA DE CÓDIGOS} % Modifica o nome da lista de códigos
+	\begin{spacing}{1.5} % Hack para espaçar as linhas da página com lista dos códigos
+		\listoflistings % Gera o índice de códigos
+	\end{spacing}
+	\renewcommand{\contentsname}{SUMÁRIO} % Modifica o nome do sumário
+	\tableofcontents % Gera o sumário
+	\onehalfspacing % Define o espaçamento de 1.5cm entre linhas
+	\include{cap1} % INTRODUÇÃO
+	\include{cap2} % VISÃO COMPUTACIONAL
+	\include{cap3} % PRINCIPAIS PROCESSOS DE VISÃO COMPUTACIONAL
+	\include{cap4} % BIBLIOTECAS DE VISÃO COMPUTACIONAL
+	\include{cap5} % ESTUDO DE CASO
+	\include{conclusao} % CONCLUSÕES
+	\bibliographystyle{abnt-alf}
+	\bibliography{referencia} % Gera as referências bibliográficas
+\end{document}
